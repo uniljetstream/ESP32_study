@@ -24,6 +24,6 @@ void app_main(void)
             ESP_LOGI("tag", "off");
         }
 
-        vTaskDelay(1);
+        vTaskDelay(50);
     }
 }
