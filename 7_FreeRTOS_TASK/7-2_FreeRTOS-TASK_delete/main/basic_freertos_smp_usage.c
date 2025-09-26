@@ -5,21 +5,38 @@
 TaskHandle_t myTaskHandle = NULL;
 TaskHandle_t myTaskHandle2 = NULL;
 
-void Demo_Task(void* arg)
+void Demo_Task(void *arg)
 {
-    while(1)
+    int count = 0;
+    while (1)
     {
+        count++;
         printf("Demo_Task printing..\n");
-        vTaskDelay(1000/portTICK_PERIOD_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        if (count == 5) // 5초 후 Demo_Task2 정지
+        {
+            vTaskSuspend(myTaskHandle2);
+            printf("Demo_Task2 is suspended!\n");
+        }
+        if (count == 8) // 8초 후 Demo_Task2 다시 시작
+        {
+            vTaskResume(myTaskHandle2);
+            printf("Demo_Task2 is resumed!\n");
+        }
+        if (count == 10) // 10초 후 Demo_Task2 삭제
+        {
+            vTaskDelete(myTaskHandle2);
+            printf("Demo_Task2 is deleted!\n");
+        }
     }
 }
 
-void Demo_Task2(void* arg)
+void Demo_Task2(void *arg)
 {
-    while(1)
+    for (int i = 0; i < 10; i++)
     {
         printf("Demo_Task2 printing..\n");
-        vTaskDelay(1000/portTICK_PERIOD_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
 }
 
